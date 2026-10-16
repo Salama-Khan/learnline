@@ -14,17 +14,27 @@ terraform {
     profile      = "learnline"
     encrypt      = true
     use_lockfile = true
-    }
+  }
 }
 provider "aws" {
-  region              = "eu-west-2"
+  region              = var.region
   profile             = "learnline"
-  allowed_account_ids = ["369970405316"]
+  allowed_account_ids = [var.account_id]
+
+  default_tags {
+    tags = {
+      Project   = var.project
+      ManagedBy = "terraform"
+    }
+  }
 }
 
+locals {
+  raw_bucket_name = "${var.project}-raw-${var.account_id}"
+}
 
 resource "aws_s3_bucket" "raw" {
-  bucket = "learnline-raw-369970405316"
+  bucket = local.raw_bucket_name
 }
 
 resource "aws_s3_bucket_public_access_block" "raw" {
