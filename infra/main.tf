@@ -7,13 +7,21 @@ terraform {
       version = "~> 6.0"
     }
   }
+  backend "s3" {
+    bucket       = "learnline-tfstate-369970405316"
+    key          = "infra/terraform.tfstate"
+    region       = "eu-west-2"
+    profile      = "learnline"
+    encrypt      = true
+    use_lockfile = true
+    }
 }
-
 provider "aws" {
   region              = "eu-west-2"
   profile             = "learnline"
   allowed_account_ids = ["369970405316"]
 }
+
 
 resource "aws_s3_bucket" "raw" {
   bucket = "learnline-raw-369970405316"
