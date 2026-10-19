@@ -1,7 +1,7 @@
-variable "github_repo" {
-  description = "GitHub repository allowed to deploy, as owner/name"
+variable "github_repo_subject" {
+  description = "GitHub OIDC subject prefix for the repo, including immutable owner and repo IDs"
   type        = string
-  default     = "Salama-Khan/learnline"
+  default     = "repo:Salama-Khan@147054847/learnline@1425441168"
 }
 
 resource "aws_iam_openid_connect_provider" "github" {
@@ -23,7 +23,7 @@ resource "aws_iam_role" "github_actions" {
           "token.actions.githubusercontent.com:aud" = "sts.amazonaws.com"
         }
         StringLike = {
-          "token.actions.githubusercontent.com:sub" = "repo:${var.github_repo}:*"
+          "token.actions.githubusercontent.com:sub" = "${var.github_repo_subject}:*"
         }
       }
     }]
