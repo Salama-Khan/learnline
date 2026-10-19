@@ -11,14 +11,12 @@ terraform {
     bucket       = "learnline-tfstate-369970405316"
     key          = "infra/terraform.tfstate"
     region       = "eu-west-2"
-    profile      = "learnline"
     encrypt      = true
     use_lockfile = true
   }
 }
 provider "aws" {
   region              = var.region
-  profile             = "learnline"
   allowed_account_ids = [var.account_id]
 
   default_tags {
