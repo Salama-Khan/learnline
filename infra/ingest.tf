@@ -2,6 +2,7 @@ data "archive_file" "ingest" {
   type        = "zip"
   source_dir  = "${path.module}/../src/ingest"
   output_path = "${path.module}/build/ingest.zip"
+  excludes    = ["__pycache__"]
 }
 
 resource "aws_iam_role" "ingest" {
