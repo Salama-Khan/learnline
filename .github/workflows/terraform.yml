@@ -2,10 +2,10 @@ name: terraform
 
 on:
   pull_request:
-    paths: ["infra/**", ".github/workflows/terraform.yml"]
+    paths: ["infra/**", "src/**" ,".github/workflows/terraform.yml"]
   push:
     branches: [main]
-    paths: ["infra/**", ".github/workflows/terraform.yml"]
+    paths: ["infra/**", "src/**" ,".github/workflows/terraform.yml"]
 
 permissions:
   id-token: write   # lets the job request an OIDC token from GitHub
@@ -24,7 +24,7 @@ jobs:
       TF_IN_AUTOMATION: "true"
     steps:
       - uses: actions/checkout@v4
-      
+
       - uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: arn:aws:iam::369970405316:role/learnline-github-actions
