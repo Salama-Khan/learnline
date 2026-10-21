@@ -50,7 +50,16 @@ def upload(s3, body: bytes, ingest_date: str) -> dict:
     )
     return metadata
 
+s3_client = boto3.client("s3")
 
+
+def lambda_handler(event, context):
+    ingest_date = datetime.now(timezone.utc).date().isoformat()
+    metadata = upload(s3_client, fetch_csv(CSV_URL), ingest_date)
+    print(json.dumps({"status": "ok", **metadata}))
+    return metadata
+
+    
 if __name__ == "__main__":
     session = boto3.Session(profile_name="learnline")
     today = datetime.now(timezone.utc).date().isoformat()
