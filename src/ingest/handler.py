@@ -34,11 +34,11 @@ def build_key(version: str, filename: str) -> str:
     return f"{PREFIX}/version={version}/{filename}"
 
 
-def upload(s3, body: bytes, ingest_date: str) -> dict:
+def upload(s3, body: bytes, version: str) -> dict:
     sha256 = hashlib.sha256(body).hexdigest()
     s3.put_object(
         Bucket=RAW_BUCKET,
-        Key=build_key(ingest_date, "data.csv.gz"),
+        Key=build_key(version, "data.csv.gz"),
         Body=body,
         ContentType="text/csv",
         ContentEncoding="gzip",
